@@ -4,68 +4,23 @@ PROJECT 14
 
 ### ANSIBLE ROLES FOR CI ENVIRONMENT
 
-Installing roles
-
-Sonarqube
-From <https://galaxy.ansible.com/lrk/sonarqube> 
-artifactory
-From <https://galaxy.ansible.com/bbaassssiiee/artifactory> 
-
-``` bash
-ubuntu@ip-172-31-94-159:~$ sudo ansible-galaxy install lrk.sonarqube
-- downloading role 'sonarqube', owned by lrk
-- downloading role from https://github.com/lrk/ansible-role-sonarqube/archive/v1.1.0.tar.gz
-- extracting lrk.sonarqube to /home/ubuntu/ansible-config-artifact/roles/lrk.sonarqube
-- lrk.sonarqube (v1.1.0) was installed successfully
-
-ubuntu@ip-172-31-94-159:~$ sudo ansible-galaxy install bbaassssiiee.artifactory
-- downloading role 'artifactory', owned by bbaassssiiee
-- downloading role from https://github.com/bbaassssiiee/artifactory/archive/v1.1.2.tar.gz
-- extracting bbaassssiiee.artifactory to /home/ubuntu/ansible-config-artifact/roles/bbaassssiiee.artifactory
-- bbaassssiiee.artifactory (v1.1.2) was installed successfully
-- adding dependency: dockpack.base_java8
-- downloading role 'base_java8', owned by dockpack
-- downloading role from https://github.com/dockpack/base_java8/archive/2.0.2.tar.gz
-- extracting dockpack.base_java8 to /home/ubuntu/ansible-config-artifact/roles/dockpack.base_java8
-- dockpack.base_java8 (2.0.2) was installed successfully
-ubuntu@ip-172-31-94-159:~$
-```
-
-``` bash
-hector@hector-Laptop:~/ansible-config-mgt/roles$ ls
-apache  apacheBANK  artifactory  common  dockpack.base_java8  mysql  nginx  nginxBAK  sonarqube  webserver
-```
-
-Did this in the Laptop so now we push to get picked by Jenkins and copy to Ansible-Jenkins instance
-
-``` bash
-hector@hector-Laptop:~/ansible-config-mgt/roles$ git add artifactory/ sonarqube/ dockpack.base_java8/
-hector@hector-Laptop:~/ansible-config-mgt/roles$ git commit -m "roles: sonarqube and artifactory+java dependency"
-```
-
-In Ansible-Jenkins instnace
-
-``` bash
-ubuntu@ip-172-31-94-159:~/ansible-config-artifact/roles$ ls
-apache  artifactory  common  dockpack.base_java8  mysql  nginx  webservers
-```
+#### Installing roles **Skipped**
 
 
-Install & Open Blue Ocean Jenkins Plugin  
-Manage Jenkins > Plugin Manager  
+
+Install & Open **Blue Ocean Jenkins** Plugin  
+**Manage Jenkins** > **Plugin Manager**   
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/blueOcean.png)  
 
-
+Now I can see the Blue Ocean icon in the **Dashboard**  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/dashboard.png)  
 
 
-Creating Access tokein in Github  
-Settings > Developer settings > Personal access tokens , button Generate new token  
-Under Note "jenkins-access-token"read:user  
-Select Scopes we put repo and on user select user:email user, read:user   
-
-
+Creating **Access Token** in Github  
+**Settings** > **Developer settings** > **Personal access tokens** , button Generate new token  
+Under **Note** `"jenkins-access-token"read:user`  
+**Select Scopes** we put **repo** and on **user** select `user:email user, read:user`   
 
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/token.png)  
@@ -117,14 +72,14 @@ Click Build Now to test
 
 If we check the Console Ouput of this build we see the intended message  
 ``` bash
-	...
-	...
-	[Pipeline] sh
-	+ echo Building Stage
-	Building Stage
-	[Pipeline] }
-	...
-	...
+...
+...
+[Pipeline] sh
++ echo Building Stage
+Building Stage
+[Pipeline] }
+...
+...
 ```
 
 
@@ -168,7 +123,7 @@ Test the job in Ocean Blue using main
 
 
 ### RUNNING ANSIBLE PLAYBOOK FROM JENKINS
-Install ansible plug-in
+Install ansible plug-in  
 
 
 Screen clipping taken: 4/22/2022 3:07 PM
@@ -246,7 +201,95 @@ Not sure if ssh-add is good enough, we can test it later
 We have been in the Pipeline Syntax generating the syntax
 	ansiblePlaybook credentialsId: 'private-key', installation: 'Ansible', inventory: 'uat.yml', playbook: 'apache.yml'
 	
+	Step:
+	You can put the .ansible.cfg file alongside Jenkinsfile in the deploy directory.
+	
+	Till now we have used Pipeline ansible-demo
 
+``` bash
+	pipeline {
+	    agent any
+	
+	    stages {
+	        stage('SCM Checkout') {
+	            steps {
+	                git 'https://github.com/hectorproko/myapp-ansible.git'
+	            }
+	        }
+	        stage('Execute Ansible') {
+	            steps {
+	                ansiblePlaybook credentialsId: 'private-key', installation: 'Ansible', inventory: 'uat.ini', playbook: 'apache.yml'
+	            }
+	        }
+	    }
+	}
+```
+	
+	Need to run site.yml with the roles
+
+	Seems like we need to take ansible-project job and turn into pipeline and run site.yml
+	Ìt is already pipeline Blue ocean configuraiton is weird
+	Remember the pipeline configuraiton is in a repo so all we are doing is downloading it doesn’t live in Jenkins for ansible-project for ansible-demo it does
+	
+	For now we are going to take 
+	Doing parameterization with ansible-demo
+	Worked:
+	Adding
+``` bash
+		pipeline {
+    agent any	
+		parameters {
+      string(name: 'inventory', defaultValue: 'dev',  description: 'This is the inventory file for the environment to deploy configuration')
+    }
+```
+
+	When you click Run it prompts you (Blue Ocean Plug in)
+
+		Screen clipping taken: 4/26/2022 9:36 AM
+		inputRequire
+		
+	Without Blue Ocean Plug-in on the the regular Configure you see. Under tab General
+
+
+	Screen clipping taken: 4/26/2022 9:38 AM
+	stringParameter
+	
+	
+	OK: here we are trying to do it with site.yml
+		Ok I just tried to run the playbook from Jenkins job and it worked without ssh-add. I believe after u restart the instance you lose the ssh-add and need to re-add so the fact that i did not do that just now and it worked Im assuming it worked without it and it relied solely on the private key configured in the job
+		
+		Using Taiwo repo as referemcet
+		https://github.com/Taiwolawal/ansible-config/blob/main/deploy/Jenkinsfile
+		
+		
+		Seems like we need to modify ansible-project (is there I have my Jenkinfifle)to run different stages one of them cloning ansible-config-mgnt (he doesn’t have this name, I don’t have deploys here with jenkinsfile and ansible.cf). Running playbook site.yml, making sure we can dynamically change inventory
+		Ànsible-project repo has the jenkinsfile with the pipeline code and ansible.cnf to donwload ansible-mngt
+		
+		The way he has it ansible-config has the site.yml and jenkinsfile
+		
+		
+		We are moving ansible-project jenkinsfile to ansible-config-mgnt
+		
+	
+		Tested the parematization from anisble-demo worked
+The job now shows Build with Parameters where you can put, in my case the whole file dev.ini or uat.ini
+		ansiblePlaybook credentialsId: 'private-key', installation: 'Ansible', inventory: '${WORKSPACE}/${inventory}', playbook: 'apache.yml'	
+		
+		
+		Not used anymore
+		https://github.com/hectorproko/ansible-project
+		
+		 ansible-project job now has repo https://github.com/hectorproko/ansible-config-mgt
+		
+		Uploaded ansible.cfg
+		https://github.com/hectorproko/ansible-config-mgt/blob/main/deploy/ansible.cfg
+		
+		
+		Executed site.yml manually specifying the directory. Not sure why  I need to specify directory they had their on file that did that. But the job in jenkins has to put an env which is an inventory file wth "-i" when jenkins urn command
+
+		So the ansible.cfg can't have roles_path because we are trying to generate a path relative to the Jenkins workspace which changes with branch name. If it already contains a role_path you get his error
+		
+Creating PullRequest to going HisJekinsfile to main
 
 ### CI/CD PIPELINE FOR TODO APPLICATION
 ### PHASE 2 – INTEGRATE ARTIFACTORY REPOSITORY WITH JENKINS

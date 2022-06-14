@@ -32,14 +32,14 @@ Under **Note** `"jenkins-access-token"read:user`
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/storeCode.png)  
 
 
-Created repo 
+Created repo  
 https://github.com/hectorproko/ansible-project  
 
-At this point it tries to find a Jenkinsfile does not find it and prompts you for  a page to create  
+At this point it tries to find a **Jenkinsfile** does not find it and prompts you to a page to generate one  
 
-This is where we ignore and click Administration  
+I'll ignore it and click **Administration**  
 
-Now we go back to Dashboard we the job (newly create pipeline)  
+Now in the Dashboard we see the (newly created pipeline) job   
 
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/pipeline.png)  

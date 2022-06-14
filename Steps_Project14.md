@@ -13,12 +13,13 @@ Install & Open **Blue Ocean Jenkins** Plugin
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/blueOcean.png)  
 
+
 Now I can see the Blue Ocean icon in the **Dashboard**  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/dashboard.png)  
 
 
 Creating **Access Token** in Github  
-**Settings** > **Developer settings** > **Personal access tokens** , button Generate new token  
+**Settings** > **Developer settings** > **Personal access tokens** , button **Generate new token**  
 Under **Note** `"jenkins-access-token"read:user`  
 **Select Scopes** we put **repo** and on **user** select `user:email user, read:user`   
 
@@ -32,45 +33,58 @@ Under **Note** `"jenkins-access-token"read:user`
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/storeCode.png)  
 
 
-Created repo  
-https://github.com/hectorproko/ansible-project  
+Created repo https://github.com/hectorproko/ansible-project  
 
 At this point it tries to find a **Jenkinsfile** does not find it and prompts you to a page to generate one  
 
 I'll ignore it and click **Administration**  
 
-Now in the Dashboard we see the (newly created pipeline) job   
+Now in the Dashboard we see the (newly created pipeline) job. It takes the name of your GitHub repository **ansible-project**  
 
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/pipeline.png)  
 
-Created the Jenkinsfile with echo "Building Stage"  
+Created a **Jenkinsfile** (inside dir `deploy` in our repo) that I will gradually build by first adding a **Build** stage with this code snippet  
+    
+``` bash
+pipeline {
+    agent any
+stages {
+    stage('Build') {
+      steps {
+        script {
+          sh 'echo "Building Stage"'
+        }
+      }
+    }
+    }
+}
+```
 
 
-Our ansible-project job has more options   
+Now **ansible-project** job has additional options     
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/ansibleProject.png)  
 
 
-We are going to go to Configure  
+I will change the config of the job by clicking button **Configure**  
 
-Build Configuration tab  
-We are going to specify the path of the Jenkinsfile  
-
+click tab **Build Configuration**    
+Here I specify the path of the Jenkinsfile    
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/buildConfig.png)  
 
 
-Click Save  
+Click **Save**  
 
-Takes us back to ansible-project we get to pick branches we pick the only only one main  
+I'm prompted back to **ansible-project** we get to pick branches we pick the only one **main**  
 
-Click Build Now to test  
+Click **Build Now** to test  
 
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/branchMain.png)  
 
-If we check the Console Ouput of this build we see the intended message  
+If we check the **Console Output** of this build we see the intended message  
 ``` bash
 ...
 ...
@@ -83,42 +97,42 @@ Building Stage
 ```
 
 
-So we just triggered this job from regular Jenkins we could do it from  Open Blue Ocean GUI  
-The logs from Ocean Blue is also really good  
+I just triggered the job from regular Jenkins GUI we could do it from  Open Blue Ocean as well     
+The log from Ocean Blue is easier on the eyes      
 
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/build.png)  
 
 
-To appreciate the multibranch options we create another branch Create a new git branch and name it feature/jenkinspipeline-stages  
+To appreciate the **multibranch** options I'll create another branch and name it `feature/jenkinspipeline-stages`  
+In this new branch the **Jenkinsfile** will have an additional stage **Test**  
+``` bash
+stage('Test') {
+  steps {
+    script {
+      sh 'echo "Testing Stage"'
+    }
+  }
+}
+```
 
-Added test stage to this branch  
-
-For the new branch to show up Navigate to the ansible-project dashboard and click on "Scan repository now"  
-
-
-
+For the new branch to show up Navigate to the ansible-project dashboard and click on "**Scan repository now**"  
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/scanRepo.png)  
 
 
-We get an nice interface  
-
-
+In Blue Ocean, I can now see how the ``Jenkinsfile`` caused a new step to appear in the pipeline  
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/niceInterface.png)
 
 
-Created more stages  
+Took this idea further and created more stages `feature/jenkinspipeline-stages`  
 
-Test the branh with new stages in Blue Ocean branch feature/jenkinspipeline-stages  
+Tested the branch with new stages in Blue Ocean branch `feature/jenkinspipeline-stages`  
 
-Creating a pull request to merge it to main  
+Created a pull request to merge `feature/jenkinspipeline-stages` to `main`  
 
-Test the job in Ocean Blue using main  
-
-
-
+Tested the job in **Ocean Blue** using `main`  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/ansibleProject8.png)
 
 

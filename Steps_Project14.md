@@ -247,8 +247,10 @@ Creating PullRequest to going **HisJekinsfile** to **main**
 
 Install **Antifactory** manually, need to check roles version
 
-First, install Gnupg2 package  
-`sudo apt-get install gnupg2 -y`
+First, install Gnupg2 package
+``` bash  
+sudo apt-get install gnupg2 -y
+```
 
 Next, download and add the GPG key(had to switch to user root to install sudo wasn’t enough)  
 `sudo wget -qO - https://api.bintray.com/orgs/jfrog/keys/gpg/public.key | apt-key add -`  

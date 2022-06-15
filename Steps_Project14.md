@@ -271,15 +271,10 @@ Install **PHP**
 sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mbstring,mysql,zip}
 ```
 
-Issue:
-		Ansible-Jenkins instance stopped working after installing artifactory
-		Created an image from messed up instance
-https://docs.bitnami.com/aws/faq/administration/clone-server/
-		Was able to see the jenkins website after a while trying to see it again after restarting, still nothing. So the instance is very slow.
-		Plan is to copy the jenkins folder to another isntance and saves all the jenkins jobs at least, using git
-		
-	Solution:
-		Using the image AMI I created I launched a new instance of type t2.small, seems like it was a memory thing Might have to go all the way to t2.medium
+`Issue:`  
+Ansible-Jenkins instance stopped working after installing artifactory. Created an image from messed up instance  
+`Solution:`  
+Using the image AMI I created I launched a new instance of type t2.small, seems like it was a memory thing Might have to go all the way to **t2.medium**
 	
 	
 	

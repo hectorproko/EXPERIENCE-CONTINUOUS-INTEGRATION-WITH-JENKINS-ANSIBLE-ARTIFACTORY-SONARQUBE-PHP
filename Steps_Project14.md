@@ -271,7 +271,7 @@ Install **PHP**
 sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mbstring,mysql,zip}
 ```
 
-	Issue:
+Issue:
 		Ansible-Jenkins instance stopped working after installing artifactory
 		Created an image from messed up instance
 https://docs.bitnami.com/aws/faq/administration/clone-server/

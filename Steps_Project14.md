@@ -274,19 +274,18 @@ sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mb
 `Issue:`  
 Ansible-Jenkins instance stopped working after installing artifactory. Created an image from messed up instance  
 `Solution:`  
-Using the image AMI I created I launched a new instance of type t2.small, seems like it was a memory thing Might have to go all the way to **t2.medium**
+Using the image AMI I created I launched a new instance of type t2.small, seems like it was a memory thing Might have to go all the way to **t2.medium**  
 	
-	
-	
-Forked  https://github.com/darey-devops/php-todo.git to
-https://github.com/hectorproko/php-todo
+`https://github.com/hectorproko/php-todo`  
 	
 Installed
- sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mbstring,mysql,zip}
+``` bash
+sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mbstring,mysql,zip}
+```
 
-Install Comoposer
-Extra tutorial https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-20-04
-https://getcomposer.org/download/
+[Install Composer](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-20-04
+https://getcomposer.org/download/)  
+ 
 
 At some point used (sudo apt install composer I think it was wrong to do that)
 

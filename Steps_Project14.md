@@ -288,6 +288,7 @@ sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mb
 
 At some point used (sudo apt install composer I think it was wrong to do that)
 
+``` bash
 ubuntu@ip-172-31-22-63:~$ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 ubuntu@ip-172-31-22-63:~$ ls
 2plays.yml  ansible-config-artifact  common.yml  composer-setup.php  daro.io.pem  daro.ioJenkins.pem  hello  key  snap
@@ -299,6 +300,8 @@ Downloading...
 
 Composer (version 2.3.5) successfully installed to: /home/ubuntu/composer.phar
 Use it: php composer.phar
+```
+
 
 
 

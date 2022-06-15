@@ -283,8 +283,7 @@ Installed
 sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mbstring,mysql,zip}
 ```
 
-[Install Composer](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-20-04
-https://getcomposer.org/download/)  
+[Install Composer](https://getcomposer.org/download/)  
  
 
 At some point used (sudo apt install composer I think it was wrong to do that)

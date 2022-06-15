@@ -198,7 +198,7 @@ The goal is for **ansible-project** job (pipeline) to run `site.yml`
 
 The pipeline configuration lives in a repo so all the job **ansible-project** does is download the instructions and execute them. The configuration itself doesn’t exist in Jenkins  
 	
-For now I'm going to parameterize (ask for input) part of the pipeline code  
+For now I'm going to parameterize (ask for input) part of the pipeline code using snippet   
 ``` bash
 pipeline {
     agent any	
@@ -207,55 +207,181 @@ pipeline {
     }
 ```
 
-When you click Run it prompts you (Blue Ocean Plug in)
+Example of parameter when running job in Blue Ocean  
 
-		Screen clipping taken: 4/26/2022 9:36 AM
-		inputRequire
-		
-	Without Blue Ocean Plug-in on the the regular Configure you see. Under tab General
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/inputRequire.png)  
 
 
-	Screen clipping taken: 4/26/2022 9:38 AM
-	stringParameter
 	
-	
-	OK: here we are trying to do it with site.yml
-		Ok I just tried to run the playbook from Jenkins job and it worked without ssh-add. I believe after u restart the instance you lose the ssh-add and need to re-add so the fact that i did not do that just now and it worked Im assuming it worked without it and it relied solely on the private key configured in the job
+OK: here we are trying to do it with site.yml
+
 		
-		Using Taiwo repo as referemcet
-		https://github.com/Taiwolawal/ansible-config/blob/main/deploy/Jenkinsfile
+
+Seems like we need to modify ansible-project (is there I have my Jenkinfifle)to run different stages one of them cloning ansible-config-mgnt (he doesn’t have this name, I don’t have deploys here with jenkinsfile and ansible.cf). Running playbook site.yml, making sure we can dynamically change inventory
 		
+Ànsible-project repo has the jenkinsfile with the pipeline code and ansible.cnf to donwload ansible-mngt
 		
-		Seems like we need to modify ansible-project (is there I have my Jenkinfifle)to run different stages one of them cloning ansible-config-mgnt (he doesn’t have this name, I don’t have deploys here with jenkinsfile and ansible.cf). Running playbook site.yml, making sure we can dynamically change inventory
-		Ànsible-project repo has the jenkinsfile with the pipeline code and ansible.cnf to donwload ansible-mngt
+The way he has it ansible-config has the site.yml and jenkinsfile
 		
-		The way he has it ansible-config has the site.yml and jenkinsfile
-		
-		
-		We are moving ansible-project jenkinsfile to ansible-config-mgnt
-		
-	
-		Tested the parematization from anisble-demo worked
+<!---	
+Tested the parematization from anisble-demo worked
 The job now shows Build with Parameters where you can put, in my case the whole file dev.ini or uat.ini
-		ansiblePlaybook credentialsId: 'private-key', installation: 'Ansible', inventory: '${WORKSPACE}/${inventory}', playbook: 'apache.yml'	
+-->
 		
-		
-		Not used anymore
-		https://github.com/hectorproko/ansible-project
-		
-		 ansible-project job now has repo https://github.com/hectorproko/ansible-config-mgt
-		
-		Uploaded ansible.cfg
-		https://github.com/hectorproko/ansible-config-mgt/blob/main/deploy/ansible.cfg
-		
-		
-		Executed site.yml manually specifying the directory. Not sure why  I need to specify directory they had their on file that did that. But the job in jenkins has to put an env which is an inventory file wth "-i" when jenkins urn command
+<!---		
+Not used anymore
+https://github.com/hectorproko/ansible-project
+-->		
 
-		So the ansible.cfg can't have roles_path because we are trying to generate a path relative to the Jenkins workspace which changes with branch name. If it already contains a role_path you get his error
+ansible-project job now has repo https://github.com/hectorproko/ansible-config-mgt
 		
-Creating PullRequest to going HisJekinsfile to main
+Uploaded ansible.cfg
+https://github.com/hectorproko/ansible-config-mgt/blob/main/deploy/ansible.cfg
+		
+		
+So the ansible.cfg can't have roles_path because we are trying to generate a path relative to the Jenkins workspace which changes with branch name. If it already contains a role_path you get error
+		
+Creating PullRequest to going **HisJekinsfile** to **main**
 
 ### CI/CD PIPELINE FOR TODO APPLICATION
+
+Install **Antifactory** manually, need to check roles version
+
+First, install Gnupg2 package  
+`sudo apt-get install gnupg2 -y`
+
+Next, download and add the GPG key(had to switch to user root to install sudo wasn’t enough)  
+`sudo wget -qO - https://api.bintray.com/orgs/jfrog/keys/gpg/public.key | apt-key add -`  
+
+Next, add the JFrog Artifactory repository with the following command:
+	echo "deb https://jfrog.bintray.com/artifactory-debs bionic main" | tee /etc/apt/sources.list.d/jfrog.list
+Once the repository is added, update the repository and install JFrog Artifactory with the following command:
+	apt-get update -y
+	apt-get install jfrog-artifactory-oss -y
+Next, start the Artifactory service and enable it to start at system reboot with the following command:
+	systemctl start artifactory
+systemctl enable artifactory
+	
+Next, verify the status of Artifactory service using the following command:
+	systemctl status artifactory
+
+
+Install PHP
+    sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mbstring,mysql,zip}
+
+
+	Issue:
+		Ansible-Jenkins instance stopped working after installing artifactory
+		Created an image from messed up instance
+https://docs.bitnami.com/aws/faq/administration/clone-server/
+		Was able to see the jenkins website after a while trying to see it again after restarting, still nothing. So the instance is very slow.
+		Plan is to copy the jenkins folder to another isntance and saves all the jenkins jobs at least, using git
+		
+	Solution:
+		Using the image AMI I created I launched a new instance of type t2.small, seems like it was a memory thing Might have to go all the way to t2.medium
+	
+	
+	
+Forked  https://github.com/darey-devops/php-todo.git to
+https://github.com/hectorproko/php-todo
+	
+Installed
+ sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mbstring,mysql,zip}
+
+Install Comoposer
+Extra tutorial https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-20-04
+https://getcomposer.org/download/
+
+At some point used (sudo apt install composer I think it was wrong to do that)
+
+ubuntu@ip-172-31-22-63:~$ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+ubuntu@ip-172-31-22-63:~$ ls
+2plays.yml  ansible-config-artifact  common.yml  composer-setup.php  daro.io.pem  daro.ioJenkins.pem  hello  key  snap
+ubuntu@ip-172-31-22-63:~$ php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+Installer verified
+ubuntu@ip-172-31-22-63:~$ php composer-setup.php
+All settings correct for using Composer
+Downloading...
+
+Composer (version 2.3.5) successfully installed to: /home/ubuntu/composer.phar
+Use it: php composer.phar
+
+
+
+
+
+Screen clipping taken: 4/25/2022 9:02 AM
+plot
+
+
+Screen clipping taken: 4/25/2022 9:04 AM
+artifactory
+
+Configure the server ID, URL and Credentials, run Test Connection.
+Manage Jekins > Configure System
+
+
+Screen clipping taken: 4/25/2022 9:19 AM
+jfrogAdd
+
+
+Screen clipping taken: 4/25/2022 9:48 AM
+jfrogPlatform
+
+I have a user jerkins and can log in with password 0679
+
+	Issue:
+		An error occurred while connecting to JFrog Artifactory:
+		JFrog service failed. Received 401: {
+		  "errors" : [ {
+		    "status" : 401,
+		    "message" : "Bad credentials"
+		  } ]
+		}
+		An error occurred while connecting to JFrog Distribution:
+		JFrog service failed. Received 403: {
+		  "errors" : [ {
+		    "status" : 403,
+		    "message" : "This request is blocked due to recurrent login failures, please try again in 5 seconds"
+		  } ]
+		}
+	
+	Opened Port 8082, nothing
+	Seems like the user is to log in to artifacotry a user of artifactory
+
+	
+	Screen clipping taken: 4/25/2022 9:54 AM
+	welcome
+	
+	Used default credentials found
+https://www.shellhacks.com/jfrog-artifactory-default-password-test-credentials/
+	Prompted me to change them once log in
+	
+	
+	Skipped Set based URL, Configure Default Proxy, Create Repositories
+	
+	In Identity and Access > Users created a new user hector 0679 changed to G0dBless!
+	
+	Changed password after forgetting:
+	https://www.jfrog.com/confluence/display/JFROG/Users+and+Groups#ManagingUsers-RecreatingtheDefaultAdminUser
+	
+	
+	Screen clipping taken: 4/25/2022 10:32 AM
+	users
+	
+	Now we put this user in Jenkins
+	Remember we need to open port 8082, at least for that initial user creation?
+	
+	
+	Screen clipping taken: 4/25/2022 10:52 AM
+	jfrogPlatform2
+	
+	
+	JFrog Distribution is a complementary product to JFrog Artifactory and is run as a separate installation as a set of microservices. 
+	
+	
+
+
 ### PHASE 2 – INTEGRATE ARTIFACTORY REPOSITORY WITH JENKINS
 ### ANSIBLE INVENTORY
 ### SONARQUBE INSTALLATION

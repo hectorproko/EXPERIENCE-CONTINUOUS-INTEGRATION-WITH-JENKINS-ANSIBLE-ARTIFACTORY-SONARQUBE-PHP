@@ -254,23 +254,22 @@ sudo apt-get install gnupg2 -y
 sudo wget -qO - https://api.bintray.com/orgs/jfrog/keys/gpg/public.key | apt-key add -
 #Add the JFrog Artifactory repository
 echo "deb https://jfrog.bintray.com/artifactory-debs bionic main" | tee /etc/apt/sources.list.d/jfrog.list
+#Update the repository
+apt-get update -y
+#Install JFrog Artifactory
+apt-get install jfrog-artifactory-oss -y
+#start the Artifactory service and enable it to start at system reboot with the following command:
+systemctl start artifactory
+systemctl enable artifactory
+#Verify the status of Artifactory
+systemctl status artifactory
 
 ```
 
-Once the repository is added, update the repository and install JFrog Artifactory with the following command:
-	apt-get update -y
-	apt-get install jfrog-artifactory-oss -y
-Next, start the Artifactory service and enable it to start at system reboot with the following command:
-	systemctl start artifactory
-systemctl enable artifactory
-	
-Next, verify the status of Artifactory service using the following command:
-	systemctl status artifactory
-
-
-Install PHP
-    sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mbstring,mysql,zip}
-
+Install **PHP**
+``` bash
+sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mbstring,mysql,zip}
+```
 
 	Issue:
 		Ansible-Jenkins instance stopped working after installing artifactory

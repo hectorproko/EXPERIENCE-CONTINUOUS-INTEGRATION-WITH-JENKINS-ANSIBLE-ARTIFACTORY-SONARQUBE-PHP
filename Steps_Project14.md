@@ -200,9 +200,9 @@ The pipeline configuration lives in a repo so all the job **ansible-project** do
 	
 For now I'm going to parameterize (ask for input) part of the pipeline code  
 ``` bash
-		pipeline {
+pipeline {
     agent any	
-		parameters {
+	parameters {
       string(name: 'inventory', defaultValue: 'dev',  description: 'This is the inventory file for the environment to deploy configuration')
     }
 ```

@@ -247,16 +247,16 @@ Creating PullRequest to going **HisJekinsfile** to **main**
 
 Install **Antifactory** manually, need to check roles version
 
-First, install Gnupg2 package
-``` bash  
+``` bash
+#Install Gnupg2 package
 sudo apt-get install gnupg2 -y
+#Next, download and add the GPG key(had to switch to user root to install sudo wasn’t enough)
+sudo wget -qO - https://api.bintray.com/orgs/jfrog/keys/gpg/public.key | apt-key add -
+#Add the JFrog Artifactory repository
+echo "deb https://jfrog.bintray.com/artifactory-debs bionic main" | tee /etc/apt/sources.list.d/jfrog.list
+
 ```
 
-Next, download and add the GPG key(had to switch to user root to install sudo wasn’t enough)  
-`sudo wget -qO - https://api.bintray.com/orgs/jfrog/keys/gpg/public.key | apt-key add -`  
-
-Next, add the JFrog Artifactory repository with the following command:
-	echo "deb https://jfrog.bintray.com/artifactory-debs bionic main" | tee /etc/apt/sources.list.d/jfrog.list
 Once the repository is added, update the repository and install JFrog Artifactory with the following command:
 	apt-get update -y
 	apt-get install jfrog-artifactory-oss -y

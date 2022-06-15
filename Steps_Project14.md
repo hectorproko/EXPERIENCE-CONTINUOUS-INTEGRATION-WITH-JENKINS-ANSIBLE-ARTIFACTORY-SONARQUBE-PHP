@@ -123,101 +123,54 @@ For the new branch to show up Navigate to the ansible-project dashboard and clic
 
 In Blue Ocean, I can now see how the ``Jenkinsfile`` caused a new step to appear in the pipeline  
 
-![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/niceInterface.png)
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/niceInterface.png)  
 
 
-Took this idea further and created more stages `feature/jenkinspipeline-stages`  
+Took this idea further and created more stages in `feature/jenkinspipeline-stages`  
 
 Tested the branch with new stages in Blue Ocean branch `feature/jenkinspipeline-stages`  
 
 Created a pull request to merge `feature/jenkinspipeline-stages` to `main`  
 
-Tested the job in **Ocean Blue** using `main`  
-![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/ansibleProject8.png)
+Tested the job in **Ocean Blue** using `main`. I can see additional stages displayed
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/ansibleProject8.png)  
 
 
-### RUNNING ANSIBLE PLAYBOOK FROM JENKINS
+### RUNNING ANSIBLE PLAYBOOK FROM JENKINS  
+
 Install ansible plug-in  
 
-
-Screen clipping taken: 4/22/2022 3:07 PM
-ansiblePlugin
-
-Manage Jenkins >> Global Tool Configuration
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/ansiblePlugin.png)  
 
 
+**Manage Jenkins** > **Global Tool Configuration**  
 
-Screen clipping taken: 4/22/2022 3:14 PM
-addAnsible
+I point Jenkins to my Ansible installation  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/addAnsible.png)  
 
-To 
+Finding my Jenkins installation path  
+``` bash 
 ubuntu@ip-172-31-94-159:~$ which ansible
 /usr/bin/ansible
+```
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/addAnsible2.png)  
+
+I used the **Pipeline Syntax** link to go to the **Snippet Generator** to generate the code I put in the **Jenkinsfile**  
+
+I start with creating **SSH connection credentials**  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/addCredentials.png)  
+
+I enter the contents of my **.pem** key directly  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/privateKey.png)  
+
+Button **Add**  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/addSSH.png)  
 
 
-
-Screen clipping taken: 4/22/2022 3:18 PM
-addAnsible2
-
-
-
-Created job ansible-demo of type Pipeline
-
-
-Now we type script directly to pipeline
-You can use the Pipeline Syntax thing
-	In Pipeline Syntax I looked for Git and I get to specify
-
-
-	Screen clipping taken: 4/22/2022 4:57 PM
-	Steps
+I'll put the **ansible.cfg** file alongside **Jenkinsfile** in the deploy directory.  
 	
-	
-	
-	He did not specify credentials
-
-	Now we look for synatx of ansible execution
-	
-The fact that we installed ansible plugin makes it available in the Pipeline Syntax
-
-
-
-Screen clipping taken: 4/22/2022 5:46 PM
-Steps2
-
-
-Need to create SSH connection credentials
-
-
-Screen clipping taken: 4/22/2022 6:02 PM
-addCredentials
-
-
-
-When you select Kind the options under change
-
-Enter key directly daro.io.pem
-
-
-Screen clipping taken: 4/22/2022 6:05 PM
-privateKey
-
-
-Button Add
-
-Screen clipping taken: 4/22/2022 6:06 PM
-addSSH
-
-
-
-Not sure if ssh-add is good enough, we can test it later
-
-We have been in the Pipeline Syntax generating the syntax
-	ansiblePlaybook credentialsId: 'private-key', installation: 'Ansible', inventory: 'uat.yml', playbook: 'apache.yml'
-	
-	Step:
-	You can put the .ansible.cfg file alongside Jenkinsfile in the deploy directory.
-	
+<!--- This is an HTML comment in Markdown 
 	Till now we have used Pipeline ansible-demo
 
 ``` bash
@@ -238,17 +191,14 @@ We have been in the Pipeline Syntax generating the syntax
 	    }
 	}
 ```
+-->
 	
-	Need to run site.yml with the roles
+The goal is for **ansible-project** job (pipeline) to run `site.yml`
 
-	Seems like we need to take ansible-project job and turn into pipeline and run site.yml
-	Ìt is already pipeline Blue ocean configuraiton is weird
-	Remember the pipeline configuraiton is in a repo so all we are doing is downloading it doesn’t live in Jenkins for ansible-project for ansible-demo it does
+
+The pipeline configuration lives in a repo so all the job **ansible-project** does is download the instructions and execute them. The configuration itself doesn’t exist in Jenkins  
 	
-	For now we are going to take 
-	Doing parameterization with ansible-demo
-	Worked:
-	Adding
+For now I'm going to parameterize (ask for input) part of the pipeline code  
 ``` bash
 		pipeline {
     agent any	
@@ -257,7 +207,7 @@ We have been in the Pipeline Syntax generating the syntax
     }
 ```
 
-	When you click Run it prompts you (Blue Ocean Plug in)
+When you click Run it prompts you (Blue Ocean Plug in)
 
 		Screen clipping taken: 4/26/2022 9:36 AM
 		inputRequire

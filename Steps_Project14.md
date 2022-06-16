@@ -298,9 +298,9 @@ Downloading...
 Composer (version 2.3.5) successfully installed to: /home/ubuntu/composer.phar
 Use it: php composer.phar
 ```
-
-Screen clipping taken: 4/25/2022 9:02 AM
-plot
+Install Jenkins plugins  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/plot.png)  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/artifactory.png) 
 
 
 Screen clipping taken: 4/25/2022 9:04 AM

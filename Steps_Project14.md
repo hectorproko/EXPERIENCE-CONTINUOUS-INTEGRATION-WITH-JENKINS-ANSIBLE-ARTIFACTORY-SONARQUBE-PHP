@@ -338,7 +338,45 @@ Remember to open port 8082
 `JFrog Distribution` is a complementary product to `JFrog Artifactory` and is run as a separate installation as a set of microservices.  
 
 
-### PHASE 2 – INTEGRATE ARTIFACTORY REPOSITORY WITH JENKINS
+### INTEGRATE ARTIFACTORY REPOSITORY WITH JENKINS
+
+Created `Jenkinsfile` in https://github.com/hectorproko/ansible-project/tree/main/deploy (using diff repo) with snippet:   
+``` bash
+	pipeline {
+    agent any
+	stages {
+	stage("Initial cleanup") {
+          steps {
+            dir("${WORKSPACE}") {
+              deleteDir()
+            }
+          }
+        }
+	stage('Checkout SCM') {
+      steps {
+            git branch: 'main', url: 'https://github.com/hectorproko/php-todo.git'
+      }
+    }
+	stage('Prepare Dependencies') {
+      steps {
+             sh 'mv .env.sample .env'
+             sh 'composer install'
+             sh 'php artisan migrate'
+             sh 'php artisan db:seed'
+             sh 'php artisan key:generate'
+      }
+    }
+  }
+}
+```
+
+
+
+
+
+
+
+
 ### ANSIBLE INVENTORY
 ### SONARQUBE INSTALLATION
 ### CONFIGURE SONARQUBE

@@ -278,15 +278,12 @@ Using the image AMI I created I launched a new instance of type t2.small, seems 
 	
 `https://github.com/hectorproko/php-todo`  
 	
-Installed
+Install PHP, its dependencies and Composer tool  
 ``` bash
 sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mbstring,mysql,zip}
 ```
-
 [Install Composer](https://getcomposer.org/download/)  
  
-
-At some point used (sudo apt install composer I think it was wrong to do that)
 
 ``` bash
 ubuntu@ip-172-31-22-63:~$ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -301,11 +298,6 @@ Downloading...
 Composer (version 2.3.5) successfully installed to: /home/ubuntu/composer.phar
 Use it: php composer.phar
 ```
-
-
-
-
-
 
 Screen clipping taken: 4/25/2022 9:02 AM
 plot

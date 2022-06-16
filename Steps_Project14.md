@@ -340,7 +340,7 @@ Remember to open port 8082
 
 ### INTEGRATE ARTIFACTORY REPOSITORY WITH JENKINS
 
-Created `Jenkinsfile` in https://github.com/hectorproko/ansible-project/tree/main/deploy (using diff repo) with snippet:   
+Created `Jenkinsfile` in https://github.com/hectorproko/ansible-project/tree/main/deploy (changed repo) with snippet:   
 ``` bash
 	pipeline {
     agent any
@@ -368,6 +368,59 @@ Created `Jenkinsfile` in https://github.com/hectorproko/ansible-project/tree/mai
     }
   }
 }
+```
+
+On the database server (NFS), created database and user  
+
+``` MySQL
+[ec2-user@ip-172-31-81-201 ~]$ sudo mysql
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.26 Source distribution
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| tooling            |
++--------------------+
+5 rows in set (0.03 sec)
+
+mysql> Create database homestead;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> CREATE USER 'homestead'@'%' IDENTIFIED BY 'sePret^i';
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> GRANT ALL PRIVILEGES ON * . * TO 'homestead'@'%';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| homestead          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| tooling            |
++--------------------+
+6 rows in set (0.01 sec)
+
+mysql>
 ```
 
 

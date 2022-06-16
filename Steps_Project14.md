@@ -310,35 +310,32 @@ Configure the server ID, URL and Credentials, run Test Connection.
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/jfrogPlatform.png)  
 
-I have a user `jerkins` and can log in with password `0679`  
+I have a user `jenkins` and can log in with password `0679`  
 
 	
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/welcome.png)  
 	
 Used default credentials: user `admin` password `password`. Once prompted changed default credentials  
 	
-Skipped Set based URL, Configure Default Proxy, Create Repositories
+Skipped **Set based URL**, **Configure Default Proxy**, **Create Repositories**  
 	
-	In Identity and Access > Users created a new user hector 0679 changed to G0dBless!
-	
+In **Identity and Access** > **Users**  
+Created a new user ``hector``  
+
+<!-- 
 	Changed password after forgetting:
 	https://www.jfrog.com/confluence/display/JFROG/Users+and+Groups#ManagingUsers-RecreatingtheDefaultAdminUser
+-->
 	
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/users.png)  
+
 	
-	Screen clipping taken: 4/25/2022 10:32 AM
-	users
+Now we put this user in Jenkins
+Remember to open port 8082  
 	
-	Now we put this user in Jenkins
-	Remember we need to open port 8082, at least for that initial user creation?
-	
-	
-	Screen clipping taken: 4/25/2022 10:52 AM
-	jfrogPlatform2
-	
-	
-	JFrog Distribution is a complementary product to JFrog Artifactory and is run as a separate installation as a set of microservices. 
-	
-	
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/jfrogPlatform2.png)  
+
+`JFrog Distribution` is a complementary product to `JFrog Artifactory` and is run as a separate installation as a set of microservices.  
 
 
 ### PHASE 2 – INTEGRATE ARTIFACTORY REPOSITORY WITH JENKINS

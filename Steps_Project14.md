@@ -303,51 +303,21 @@ Install Jenkins plugins
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/artifactory.png) 
 
 
-Screen clipping taken: 4/25/2022 9:04 AM
-artifactory
+Configure the server ID, URL and Credentials, run Test Connection.  
+**Manage Jenkins** > **Configure System**  
 
-Configure the server ID, URL and Credentials, run Test Connection.
-Manage Jekins > Configure System
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/jfrogAdd.png)  
 
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/jfrogPlatform.png)  
 
-Screen clipping taken: 4/25/2022 9:19 AM
-jfrogAdd
-
-
-Screen clipping taken: 4/25/2022 9:48 AM
-jfrogPlatform
-
-I have a user jerkins and can log in with password 0679
-
-	Issue:
-		An error occurred while connecting to JFrog Artifactory:
-		JFrog service failed. Received 401: {
-		  "errors" : [ {
-		    "status" : 401,
-		    "message" : "Bad credentials"
-		  } ]
-		}
-		An error occurred while connecting to JFrog Distribution:
-		JFrog service failed. Received 403: {
-		  "errors" : [ {
-		    "status" : 403,
-		    "message" : "This request is blocked due to recurrent login failures, please try again in 5 seconds"
-		  } ]
-		}
-	
-	Opened Port 8082, nothing
-	Seems like the user is to log in to artifacotry a user of artifactory
+I have a user `jerkins` and can log in with password `0679`  
 
 	
-	Screen clipping taken: 4/25/2022 9:54 AM
-	welcome
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/welcome.png)  
 	
-	Used default credentials found
-https://www.shellhacks.com/jfrog-artifactory-default-password-test-credentials/
-	Prompted me to change them once log in
+Used default credentials: user `admin` password `password`. Once prompted changed default credentials  
 	
-	
-	Skipped Set based URL, Configure Default Proxy, Create Repositories
+Skipped Set based URL, Configure Default Proxy, Create Repositories
 	
 	In Identity and Access > Users created a new user hector 0679 changed to G0dBless!
 	

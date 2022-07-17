@@ -465,9 +465,21 @@ Don’t know what this is doing
 Now we see the button Plot on the job, as  result of putting this piece of code in the Jenkinsfile
 
 <details open>
-<summary>Want to ruin the surprise?</summary>
-<br>
-Well, you asked for it!
+<summary>Generate random string</summary>
+
+Bash code
+``` bash
++ php artisan migrate
+Migration table created successfully.
+Migrated: 2014_10_12_000000_create_users_table
+Migrated: 2014_10_12_100000_create_password_resets_table
+Migrated: 2015_10_27_141258_create_tasks_table
+[Pipeline] sh
++ php artisan db:seed
+[Pipeline] sh
++ php artisan key:generate
+Application key [Vvnp0EfkhlkxAyTTjHI5Xggp0U9NE6In] set successfully.
+```
 </details>
 
 

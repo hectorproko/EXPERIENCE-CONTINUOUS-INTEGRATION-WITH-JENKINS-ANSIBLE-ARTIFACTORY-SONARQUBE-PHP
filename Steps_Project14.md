@@ -464,7 +464,7 @@ stage('Plot Code Coverage Report')
 Don’t know what this is doing
 Now we see the button Plot on the job, as  result of putting this piece of code in the Jenkinsfile
 
-<details open>
+<details close>
 <summary>Generate random string</summary>
 
 Bash code

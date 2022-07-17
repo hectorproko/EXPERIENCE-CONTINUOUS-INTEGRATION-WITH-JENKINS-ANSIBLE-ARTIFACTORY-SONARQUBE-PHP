@@ -370,7 +370,7 @@ Created `Jenkinsfile` in https://github.com/hectorproko/ansible-project/tree/mai
 }
 ```
 
-On the database server (NFS), created database and user  
+On the database server (NFS), created database `homestead` and user `homestead`  
 
 ``` MySQL
 [ec2-user@ip-172-31-81-201 ~]$ sudo mysql
@@ -422,10 +422,53 @@ mysql> show databases;
 
 mysql>
 ```
+Updated the database connectivity requirements in the file `.env.sample`
+``` bash 
+DB_HOST=127.0.0.1 #Need to put remote server
+DB_DATABASE=homestead
+DB_USERNAME=homestead
+DB_PASSWORD=sePret^i
+```
+
+<!-- Not sure how to phrase this  -->
+sudo apt install composer
+
+compose need to for this to work
+``` bash
++ php artisan migrate
+Migration table created successfully.
+Migrated: 2014_10_12_000000_create_users_table
+Migrated: 2014_10_12_100000_create_password_resets_table
+Migrated: 2015_10_27_141258_create_tasks_table
+[Pipeline] sh
++ php artisan db:seed
+[Pipeline] sh
++ php artisan key:generate
+Application key [Vvnp0EfkhlkxAyTTjHI5Xggp0U9NE6In] set successfully.
+```
 
 
+Ansible-jenkins instance did not have `mysql-client`, installed it
+``` bash
+sudo apt install mysql-client-core-8.0
+```
 
 
+**Stage unit test**
+Doesn’t seem to be doing anything
+
+**Stage code analysis**
+Works and generates the file 
+
+stage('Plot Code Coverage Report')
+Don’t know what this is doing
+Now we see the button Plot on the job, as  result of putting this piece of code in the Jenkinsfile
+
+<details open>
+<summary>Want to ruin the surprise?</summary>
+<br>
+Well, you asked for it!
+</details>
 
 
 

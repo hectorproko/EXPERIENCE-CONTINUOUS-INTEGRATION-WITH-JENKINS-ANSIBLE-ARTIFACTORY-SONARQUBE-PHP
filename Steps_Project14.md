@@ -454,38 +454,47 @@ sudo apt install mysql-client-core-8.0
 ```
 
 
-**Stage unit test**
+**Stage unit test**  
 Doesn’t seem to be doing anything
 
-**Stage code analysis**
+**Stage code analysis**  
 Works and generates the file 
-
-stage('Plot Code Coverage Report')
-Don’t know what this is doing
-Now we see the button Plot on the job, as  result of putting this piece of code in the Jenkinsfile
-
-<details close>
-<summary>Generate random string</summary>
-
-Bash code
 ``` bash
-+ php artisan migrate
-Migration table created successfully.
-Migrated: 2014_10_12_000000_create_users_table
-Migrated: 2014_10_12_100000_create_password_resets_table
-Migrated: 2015_10_27_141258_create_tasks_table
-[Pipeline] sh
-+ php artisan db:seed
-[Pipeline] sh
-+ php artisan key:generate
-Application key [Vvnp0EfkhlkxAyTTjHI5Xggp0U9NE6In] set successfully.
+stage('Code Analysis') {
+  steps {
+        sh 'phploc app/ --log-csv build/logs/phploc.csv'
+}
+}
 ```
-</details>
 
+**stage('Plot Code Coverage Report')**  
+Don’t know what this is doing
+Now we see the button [Plot on the job](linkToPictureFindit), as  result of putting this piece of code in the Jenkinsfile  
 
+[Jenkinsfile](https://github.com/hectorproko/ansible-project/tree/main/deploy)
+
+So turns out we need a a different job because we will be calling **ansible-project**
+Phase 2 deals with [php-todo](https://github.com/hectorproko/php-todo) so going to create the Jenkins file inside that repo and create job of the same name. we have to delete the branch artifactory from **ansible-project** cuse that Jenkinsfile is going to **php-todo** repo
+
+Creating job in Jenkins named php-todo
+Job needs to be configured from Ocean Blue
+Or from the regular place and pick Multibranch Pipeline the job now has the tab Build Configuration. So each type of New Item has different Tabs.
 
 
 ### ANSIBLE INVENTORY
 ### SONARQUBE INSTALLATION
 ### CONFIGURE SONARQUBE
 ### CONFIGURE SONARQUBE AND JENKINS FOR QUALITY GATE
+
+
+
+<details close>
+<summary>Expand Image Test</summary>
+
+Bash code
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/inputRequire.png)  
+
+</details>
+
+

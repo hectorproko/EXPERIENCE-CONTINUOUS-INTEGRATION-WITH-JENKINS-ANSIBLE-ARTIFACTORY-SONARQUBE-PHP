@@ -474,21 +474,291 @@ stage('Code Analysis') {
 
 **stage('Plot Code Coverage Report')**  
 Don’t know what this is doing
-Now we see the button [Plot on the job](linkToPictureFindit), as  result of putting this piece of code in the Jenkinsfile  
+Now we see the button Plot on the job, as  result of putting this piece of code in the Jenkinsfile  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/menuplot.png)
 
 [Jenkinsfile](https://github.com/hectorproko/ansible-project/tree/main/deploy)
 
 So turns out we need a a different job because we will be calling **ansible-project**
 Phase 2 deals with [php-todo](https://github.com/hectorproko/php-todo) so going to create the Jenkins file inside that repo and create job of the same name. we have to delete the branch artifactory from **ansible-project** cuse that Jenkinsfile is going to **php-todo** repo
 
-Creating job in Jenkins named php-todo
-Job needs to be configured from Ocean Blue
-Or from the regular place and pick Multibranch Pipeline the job now has the tab Build Configuration. So each type of New Item has different Tabs.
+Creating job in Jenkins named php-todo  
+Job needs to be configured from Ocean Blue  
+Or from the regular place and pick **Multibranch Pipeline** the job now has the tab **Build Configuration**. So each type of New Item has different Tabs.
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/multibranch.png)
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/general.png)
+
+Need to create the job through ocean blue cuse there is a step that asks for Jenkins token, not sure how to do it with regular job. Scratch that even thought getting error validation button worked. It disappear afterwards
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/branchSources.png)
+
+Repo came with 4 branches in total including **main**
+
+We see a zip file from stage package
+``` bash
+stage ('Package Artifact') {
+  steps {
+    sh 'zip -qr ${WORKSPACE}/php-todo.zip ${WORKSPACE}/*'
+}
+```
+
+``` bash
+ubuntu@ip-172-31-89-170:/var/lib/jenkins/workspace$ ls php-todo_main
+ExcludeFiles  LICENSE.txt  app      bootstrap  build.xml      composer.lock  dat
+abase     package.json  phpunit.xml  resources   sonar.properties  tests
+Jenkinsfile   README.md    artisan  build      composer.json  config         gul
+pfile.js  php-todo.zip  public       server.php  storage           vendor
+```
+
+`php-todo.zip  `
+
+
+So we pushed the stage that uploads the artifact, but there is not repo to upload to yet. Need to create it in artifactory
+Going to access artifacotry `http://3.220.20.204:8082/`, Elastic IP and needed port, I had created a user hector already`
+
+Publish the resulted artifact into Artifactory
+``` bash
+		stage ('Upload Artifact to Artifactory') {
+		          steps {
+		            script { 
+		                 def server = Artifactory.server 'artifactory-server'                 
+		                 def uploadSpec = """{
+		                    "files": [
+		                      {
+		                       "pattern": "php-todo.zip",
+		                       "target": "<name-of-artifact-repository>/php-todo",
+		                       "props": "type=zip;status=ready"
+		
+		                       }
+		                    ]
+		                 }""" 
+		
+		                 server.upload spec: uploadSpec
+		               }
+		            }
+		
+		        }
+```
+  
+
+
+
+
+Created repository
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/createRepo.png)
+
+I think is local  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/localRepo.png)  
+
+Select Package Type  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/packageType.png)  
+
+Only gives me these 4 options
+
+
+Going with genetic cuse it is zip file
+
+Named it **php-todo-Repo**  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/repoKey.png)  
+
+
+Button **Create Local Repository**
+
+**Message:**  
+``` http
+All repositories were created successfully
+Your next step is to add users who can access the repository
+```
+Button: **Add Users**
+**Skipped** we already created a hector user with **Administer Platform** role
+
+Now that we have repo let's put the identifier of the repo in the code/stage
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/2repos.png) 
+
+Piece of code on **upload stage**  
+`	"target": "php-todo-Repo/php-todo",	`
+	
+Now we Confirm the **Artifact** is there in the repo  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/application.png)  
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/phptodo.png)  
+
+Can also use the path of the URL `http://3.220.20.204:8082/ui/repos/tree/General/php-todo-Repo`
+
+Added stage ('Deploy to Dev Environment')  
+
+``` bash
+		stage ('Deploy to Dev Environment') {
+    steps {
+    build job: 'ansible-project/main', parameters: [[$class: 'StringParameterValue', name: 'env', value: 'dev']], propagate: false, wait: true
+    }
+  }
+```
+**php-todo** executed succesfully and this stage with execute another job **ansible-project** and pass it the parameter needed. Aka the inventory or env
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/phptodo26.png)  
+
+Now **php-todo** job does through all the stages and triggers **ansible-project** at the end  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/consoleOutput.png)  
+
 
 
 ### ANSIBLE INVENTORY
+Nothing here  
 ### SONARQUBE INSTALLATION
+Just followed the steps  
+
+Provisioning instance  
+c4x.large Ubuntu  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/sonarqube.png)  
+
 ### CONFIGURE SONARQUBE
+
+
+**SONARQUBE INSTALLATION**  
+Before we start getting hands on with **SonarQube** configuration, it is incredibly important to understand a few concepts:  
+	• *Software Quality* – The degree to which a software component, system or process meets specified requirements based on user needs and expectations.  
+	• *Software Quality Gates* – Quality gates are basically acceptance criteria which are usually presented as a set of predefined quality criteria that a software development project must meet in order to proceed from one stage of its lifecycle to the next one. 
+
+[Software Quality Gates](https://docs.sonarqube.org/latest/user-guide/quality-gates/)  
+
+SonarQube is a tool that can be used to create quality gates for software projects, and the ultimate goal is to be able to ship only quality software code.  
+
+Despite that DevOps CI/CD pipeline helps with fast software delivery, it is of the same importance to ensure the quality of such delivery. Hence, we will need SonarQube to set up Quality gates. In this project we will use predefined Quality Gates (also known as [The Sonar Way](https://docs.sonarqube.org/latest/instance-administration/quality-profiles/) ). Software testers and developers would normally work with project leads and architects to create custom quality gates.  
+
+**Install SonarQube on Ubuntu 20.04 With PostgreSQL as Backend Database**  
+Here is a manual approach to installation. Ensure that you can to automate the same with Ansible.  
+Below is a step by step guide how to install **SonarQube 7.9.3** version. It has a strong prerequisite to have Java installed since the tool is Java-based. MySQL support for SonarQube is deprecated, therefore we will be using PostgreSQL.  
+
+We will make some Linux Kernel configuration changes to ensure optimal performance of the tool – we will increase `vm.max_map_count`, `file discriptor` and `ulimit`.  
+
+**Tune Linux Kernel**  
+This can be achieved by making session changes which does not persist beyond the current session terminal. (Seems like the first two are made permanent in /etc/sysctl.conf)
+
+``` bash
+sudo sysctl -w vm.max_map_count=262144  #it writes to `sysctl.conf`)
+sudo sysctl -w fs.file-max=65536
+ulimit -n 65536
+ulimit -u 262144
+```
+To make a permanent change, edit the file `/etc/security/limits.conf` and append the below  
+sonarqube   -   nofile   65536 (these 2 are supposed to be the permanent version of the first 2 sudo sysctl)
+sonarqube   -   nproc    4096
+
+Before installing, let us update and upgrade system packages:
+``` bash
+sudo apt-get update -y
+sudo apt-get upgrade -y
+```
+Install **wget** and **unzip** packages
+``` bash
+sudo apt-get install wget unzip -y
+```
+Install OpenJDK and Java Runtime Environment (JRE) 11
+``` bash
+sudo apt-get install openjdk-11-jdk -y
+sudo apt-get install openjdk-11-jre -y
+```
+Set default JDK – To set default JDK or switch to OpenJDK enter below command:
+``` bash
+sudo update-alternatives --config java
+```
+If you have multiple versions of Java installed, you should see a list like below:
+```
+ubuntu@ip-172-31-89-89:~$  sudo update-alternatives --config java
+There is only one alternative in link group java (providing /usr/bin/java): /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+Nothing to configure
+```
+
+Seem like a database user was created. Correct **createuser** is a postgress command not a linux one so we are just creating a **role** sonar in the database.
+
+
+Taking note of version:  
+``` bash
+ubuntu@ip-172-31-89-89:~$ java -version
+openjdk version "11.0.15" 2022-04-19
+OpenJDK Runtime Environment (build 11.0.15+10-Ubuntu-0ubuntu0.20.04.1)
+OpenJDK 64-Bit Server VM (build 11.0.15+10-Ubuntu-0ubuntu0.20.04.1, mixed mode, sharing)
+ubuntu@ip-172-31-89-89:~$f
+```
+**Install and Setup PostgreSQL 10 Database for SonarQube**
+
+The command below will add PostgreSQL repo to the repo list:  
+``` bash
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+```
+Download PostgreSQL software  
+``` bash
+wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -  
+```
+Install PostgreSQL Database Server  
+``` bash
+sudo apt-get -y install postgresql postgresql-contrib
+```
+Start PostgreSQL Database Server  
+``` bash
+sudo systemctl start postgresql
+```
+Enable it to start automatically at boot time  
+``` bash
+sudo systemctl enable postgresql
+```
+Change the password for default postgres user (Pass in the password you intend to use, and remember to save it somewhere)  
+``` bash
+sudo passwd postgres
+```
+Switch to the `postgres` user  
+``` basg
+su - postgres
+```
+Create a new user by typing  
+``` bash
+createuser sonar
+```
+Switch to the PostgreSQL shell  
+``` bash
+psql
+```
+Set a password for the newly created user for SonarQube database  
+```sql
+ALTER USER sonar WITH ENCRYPTED password 'sonar';
+```  
+Create a new database for PostgreSQL database by running:
+```sql
+CREATE DATABASE sonarqube OWNER sonar;
+```
+Grant all privileges to sonar user on sonarqube Database.
+```sql
+grant all privileges on DATABASE sonarqube to sonar;
+```
+Exit from the psql shell:
+```sql
+\q
+```
+Switch back to the sudo user by running the exit command.
+``` sql
+Exit
+```
+**Install SonarQube on Ubuntu**  
+Navigate to the `tmp` directory to temporarily download the installation files  
+``` bash
+cd /tmp && sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.9.3.zip
+```
+
+Unzip the archive setup to `/opt directory`  
+``` bash
+sudo unzip sonarqube-7.9.3.zip -d /opt
+```
+Move extracted setup to `/opt/sonarqube` directory (rename)
+``` bash
+sudo mv /opt/sonarqube-7.9.3 /opt/sonarqube
+```
+
+
+
+
 ### CONFIGURE SONARQUBE AND JENKINS FOR QUALITY GATE
 
 

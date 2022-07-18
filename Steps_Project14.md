@@ -457,7 +457,12 @@ sudo apt install mysql-client-core-8.0
 **Stage unit test**  
 Doesn’t seem to be doing anything
 
-**Stage code analysis**  
+**Stage code analysis** 
+For PHP the most commonly tool used for code quality analysis is phploc. Read the article here for more
+The data produced by phploc can be ploted onto graphs in Jenkins.
+
+Add the code analysis step in `Jenkinsfile`. The output of the data will be saved in `build/logs/phploc.csv` file.
+
 Works and generates the file 
 ``` bash
 stage('Code Analysis') {
@@ -489,12 +494,8 @@ Or from the regular place and pick Multibranch Pipeline the job now has the tab 
 
 
 <details close>
-<summary>Expand Image Test</summary>
+<summary>Expand GIF</summary>
 
-Bash code
-
-![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/inputRequire.png)  
-
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/AWS-CLOUD-SOLUTION-FOR-2-COMPANY-WEBSITES-USING-A-REVERSE-PROXY-TECHNOLOGY/main/images/tooling_project_15.png)  
 </details>
-
 

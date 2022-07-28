@@ -1,11 +1,13 @@
 # EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP
-PROJECT 14
+**PROJECT 14**
 
 
 ### ANSIBLE ROLES FOR CI ENVIRONMENT
+<!--- Wrap text --->
 
+<!--- Wrap text 
 #### Installing roles **Skipped**
-
+--->
 
 
 Install & Open **Blue Ocean Jenkins** Plugin  
@@ -33,7 +35,9 @@ Under **Note** `"jenkins-access-token"read:user`
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/storeCode.png)  
 
 
-Created repo https://github.com/hectorproko/ansible-project  
+Created repo [ansible-project](https://github.com/hectorproko/ansible-project)  
+**Attn**:		
+*Later on I stop using this repo and replace it with [ansible-config-mgt](https://github.com/hectorproko/ansible-config-mgt/tree/main/deploy)*
 
 At this point it tries to find a **Jenkinsfile** does not find it and prompts you to a page to generate one  
 
@@ -62,7 +66,7 @@ stages {
 ```
 
 
-Now **ansible-project** job has additional options     
+Click **ansible-project** to see additional options     
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/ansibleProject.png)  
 
@@ -97,7 +101,7 @@ Building Stage
 ```
 
 
-I just triggered the job from regular Jenkins GUI we could do it from  Open Blue Ocean as well     
+I just triggered the job from **Jenkins GUI** we could do it from **Blue Ocean** as well     
 The log from Ocean Blue is easier on the eyes      
 
 
@@ -105,7 +109,7 @@ The log from Ocean Blue is easier on the eyes
 
 
 To appreciate the **multibranch** options I'll create another branch and name it `feature/jenkinspipeline-stages`  
-In this new branch the **Jenkinsfile** will have an additional stage **Test**  
+In this new branch the **Jenkinsfile** will have an additional stage `Test ` 
 ``` bash
 stage('Test') {
   steps {
@@ -116,21 +120,21 @@ stage('Test') {
 }
 ```
 
-For the new branch to show up Navigate to the ansible-project dashboard and click on "**Scan repository now**"  
+For the new branch to show up Navigate to the **ansible-project** dashboard and click on "**Scan repository now**"  
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/scanRepo.png)  
 
 
-In Blue Ocean, I can now see how the ``Jenkinsfile`` caused a new step to appear in the pipeline  
+In **Blue Ocean**, I can now see how the ``Jenkinsfile`` caused a new step to appear in the pipeline  
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/niceInterface.png)  
 
 
 Took this idea further and created more stages in `feature/jenkinspipeline-stages`  
 
-Tested the branch with new stages in Blue Ocean branch `feature/jenkinspipeline-stages`  
+Tested the branch with new stages in **Blue Ocean** branch `feature/jenkinspipeline-stages`  
 
-Created a pull request to merge `feature/jenkinspipeline-stages` to `main`  
+Created a **pull request** to merge `feature/jenkinspipeline-stages` to `main`  
 
 Tested the job in **Ocean Blue** using `main`. I can see additional stages displayed
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/ansibleProject8.png)  
@@ -138,17 +142,17 @@ Tested the job in **Ocean Blue** using `main`. I can see additional stages displ
 
 ### RUNNING ANSIBLE PLAYBOOK FROM JENKINS  
 
-Install ansible plug-in  
+Installed ansible plug-in  
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/ansiblePlugin.png)  
 
 
 **Manage Jenkins** > **Global Tool Configuration**  
 
-I point Jenkins to my Ansible installation  
+I point **Jenkins** to my Ansible installation  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/addAnsible.png)  
 
-Finding my Jenkins installation path  
+Finding my **Jenkins** installation path  
 ``` bash 
 ubuntu@ip-172-31-94-159:~$ which ansible
 /usr/bin/ansible
@@ -207,45 +211,41 @@ pipeline {
     }
 ```
 
-Example of parameter when running job in Blue Ocean  
+Example of parameter when running job in **Blue Ocean** 
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/inputRequire.png)  
 
-
-	
-OK: here we are trying to do it with site.yml
-
-		
-
-Seems like we need to modify ansible-project (is there I have my Jenkinfifle)to run different stages one of them cloning ansible-config-mgnt (he doesn’t have this name, I don’t have deploys here with jenkinsfile and ansible.cf). Running playbook site.yml, making sure we can dynamically change inventory
-		
-Ànsible-project repo has the jenkinsfile with the pipeline code and ansible.cnf to donwload ansible-mngt
-		
-The way he has it ansible-config has the site.yml and jenkinsfile
-		
-<!---	
-Tested the parematization from anisble-demo worked
-The job now shows Build with Parameters where you can put, in my case the whole file dev.ini or uat.ini
+<!---	 
 -->
-		
+
+**Attn**: Changed **ansible-project** job repo to [ansible-config-mgt](https://github.com/hectorproko/ansible-config-mgt) 
+
+<!---		
+OK: here we are trying to do it with site.yml
+Ansible-project repo has the Jenkinsfile with the pipeline code and ansible.cnf to download ansible-mngt
+-->				
+
 <!---		
 Not used anymore
 https://github.com/hectorproko/ansible-project
 -->		
 
-ansible-project job now has repo https://github.com/hectorproko/ansible-config-mgt
+
 		
-Uploaded ansible.cfg
-https://github.com/hectorproko/ansible-config-mgt/blob/main/deploy/ansible.cfg
+Uploaded [ansible.cfg](https://github.com/hectorproko/ansible-config-mgt/blob/main/deploy/ansible.cfg
+) to `ansible-config-mgt`  
 		
-		
-So the ansible.cfg can't have roles_path because we are trying to generate a path relative to the Jenkins workspace which changes with branch name. If it already contains a role_path you get error
-		
+
+So the `ansible.cfg` can't have `roles_path` because we are trying to generate a path relative to the Jenkins workspace which changes with branch name. If it already contains a `role_path` you get error
+
+The addition of `roles_path` is done on [Jenkinsfile](https://github.com/hectorproko/ansible-config-mgt/blob/main/deploy/Jenkinsfile) stage *Prepare Ansible For Execution* with `sed -i "3 a roles_path=${WORKSPACE}/roles" ${WORKSPACE}/deploy/ansible.cfg`  
+
+
 Creating PullRequest to going **HisJekinsfile** to **main**
 
 ### CI/CD PIPELINE FOR TODO APPLICATION
 
-Install **Antifactory** manually, need to check roles version
+Install **Antifactory** manually
 
 ``` bash
 #Install Gnupg2 package
@@ -263,7 +263,6 @@ systemctl start artifactory
 systemctl enable artifactory
 #Verify the status of Artifactory
 systemctl status artifactory
-
 ```
 
 Install **PHP**
@@ -271,10 +270,8 @@ Install **PHP**
 sudo apt install -y zip libapache2-mod-php phploc php-{xml,bcmath,bz2,intl,gd,mbstring,mysql,zip}
 ```
 
-`Issue:`  
-Ansible-Jenkins instance stopped working after installing artifactory. Created an image from messed up instance  
-`Solution:`  
-Using the image AMI I created I launched a new instance of type t2.small, seems like it was a memory thing Might have to go all the way to **t2.medium**  
+`Issue:`  **Ansible-Jenkins** instance stopped working after installing artifactory.  
+`Solution:`  Changed instance from **t2.small** to **t2.medium**. (created an image of the old instance to launch new instance)
 	
 `https://github.com/hectorproko/php-todo`  
 	
@@ -330,8 +327,7 @@ Created a new user ``hector``
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/users.png)  
 
 	
-Now we put this user in Jenkins
-Remember to open port 8082  
+Now we put this user in **Jenkins** *(Remember to open port **8082**)*  
 	
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/jfrogPlatform2.png)  
 
@@ -340,7 +336,10 @@ Remember to open port 8082
 
 ### INTEGRATE ARTIFACTORY REPOSITORY WITH JENKINS
 
-Created `Jenkinsfile` in https://github.com/hectorproko/ansible-project/tree/main/deploy (changed repo) with snippet:   
+<!--Created `Jenkinsfile` in https://github.com/hectorproko/ansible-project/tree/main/deploy (changed repo) with snippet: -->
+Created `Jenkinsfile` in https://github.com/hectorproko/php-todo/blob/main/Jenkinsfile with snippet: 
+
+
 ``` bash
 	pipeline {
     agent any
@@ -422,7 +421,7 @@ mysql> show databases;
 
 mysql>
 ```
-Updated the database connectivity requirements in the file `.env.sample`
+Updated the database connectivity requirements in the file `.env`
 ``` bash 
 DB_HOST=127.0.0.1 #Need to put remote server
 DB_DATABASE=homestead
@@ -431,7 +430,7 @@ DB_PASSWORD=sePret^i
 ```
 
 <!-- Not sure how to phrase this  -->
-sudo apt install composer
+Installed composer on instance `sudo apt install composer`  
 
 compose need to for this to work
 ``` bash
@@ -453,15 +452,16 @@ Ansible-jenkins instance did not have `mysql-client`, installed it
 sudo apt install mysql-client-core-8.0
 ```
 
-
+<!--Don’t know what this is doing 
 **Stage unit test**  
 Doesn’t seem to be doing anything
+-->
 
-**Stage code analysis** 
-For PHP the most commonly tool used for code quality analysis is phploc. Read the article here for more
-The data produced by phploc can be ploted onto graphs in Jenkins.
+**Stage code analysis**   
+For PHP the most commonly tool used for code quality analysis is **phploc**.
+The data produced by **phploc** can be ploted onto graphs in Jenkins.
 
-Add the code analysis step in `Jenkinsfile`. The output of the data will be saved in `build/logs/phploc.csv` file.
+Add the code analysis step in [Jenkinsfile](https://github.com/hectorproko/php-todo/blob/main/Jenkinsfile). The output of the data will be saved in `build/logs/phploc.csv` file.
 
 Works and generates the file 
 ``` bash
@@ -473,30 +473,40 @@ stage('Code Analysis') {
 ```
 
 **stage('Plot Code Coverage Report')**  
-Don’t know what this is doing
-Now we see the button Plot on the job, as  result of putting this piece of code in the Jenkinsfile  
+<!--Don’t know what this is doing -->
+Now we see the button **Plot** on the job, as  result of putting this piece of code in the `Jenkinsfile`  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/menuplot.png)
 
-[Jenkinsfile](https://github.com/hectorproko/ansible-project/tree/main/deploy)
+<!--[Jenkinsfile](https://github.com/hectorproko/ansible-project/tree/main/deploy) wrong old-->
 
+
+
+<!--
 So turns out we need a a different job because we will be calling **ansible-project**
 Phase 2 deals with [php-todo](https://github.com/hectorproko/php-todo) so going to create the Jenkins file inside that repo and create job of the same name. we have to delete the branch artifactory from **ansible-project** cuse that Jenkinsfile is going to **php-todo** repo
+-->
 
-Creating job in Jenkins named php-todo  
-Job needs to be configured from Ocean Blue  
-Or from the regular place and pick **Multibranch Pipeline** the job now has the tab **Build Configuration**. So each type of New Item has different Tabs.
+
+
+
+Creating job in **Jenkins** named **php-todo** (configured with [Jenkinsfile](https://github.com/hectorproko/php-todo/blob/main/Jenkinsfile)
+)  
+Job needs could be configured from Ocean Blue  
+Or from the regular GUI and pick **Multibranch Pipeline** the job now has the tab **Build Configuration**. So each type of New Item has different Tabs.
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/multibranch.png)
-
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/general.png)
 
-Need to create the job through ocean blue cuse there is a step that asks for Jenkins token, not sure how to do it with regular job. Scratch that even thought getting error validation button worked. It disappear afterwards
 
+<!--
+Need to create the job through ocean blue cuse there is a step that asks for Jenkins token, not sure how to do it with regular job. Scratch that even thought getting error validation button worked. It disappear afterwards
+-->
+Even though getting error here, validation button worked. The error disappears afterwards  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/branchSources.png)
 
-Repo came with 4 branches in total including **main**
 
-We see a zip file from stage package
+
+Testing stage *Package Artifact* which **zip**s the contents of a dir/php-todo  
 ``` bash
 stage ('Package Artifact') {
   steps {
@@ -512,13 +522,11 @@ Jenkinsfile   README.md    artisan  build      composer.json  config         gul
 pfile.js  php-todo.zip  public       server.php  storage           vendor
 ```
 
-`php-todo.zip  `
+When we **ls** in the workspace path we confirm the **zip** file `php-todo.zip` is present. Next, we Publish the resulted artifact into **Artifactory**  
 
 
-So we pushed the stage that uploads the artifact, but there is not repo to upload to yet. Need to create it in artifactory
-Going to access artifacotry `http://3.220.20.204:8082/`, Elastic IP and needed port, I had created a user hector already`
 
-Publish the resulted artifact into Artifactory
+Adding another stage *Upload Artifact to Artifactory*. This stage uploads the **artifact** to **artifactory**. 
 ``` bash
 		stage ('Upload Artifact to Artifactory') {
 		          steps {
@@ -528,7 +536,7 @@ Publish the resulted artifact into Artifactory
 		                    "files": [
 		                      {
 		                       "pattern": "php-todo.zip",
-		                       "target": "<name-of-artifact-repository>/php-todo",
+		                       "target": "php-todo-Repo/php-todo",
 		                       "props": "type=zip;status=ready"
 		
 		                       }
@@ -544,27 +552,23 @@ Publish the resulted artifact into Artifactory
   
 
 
+Before we can upload anything we need to create a repo **php-todo-Repo** in **artifactory**
+I access artifacotry using browser `http://3.220.20.204:8082/` *(**Elastic IP** and needed **port**)*  
 
-
-Created repository
+Creating repository  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/createRepo.png)
 
-I think is local  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/localRepo.png)  
 
-Select Package Type  
+Select Package Type *(**Genetic**)*  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/packageType.png)  
 
-Only gives me these 4 options
-
-
-Going with genetic cuse it is zip file
 
 Named it **php-todo-Repo**  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/repoKey.png)  
 
 
-Button **Create Local Repository**
+Click **Create Local Repository**  
 
 **Message:**  
 ``` http
@@ -572,70 +576,76 @@ All repositories were created successfully
 Your next step is to add users who can access the repository
 ```
 Button: **Add Users**
-**Skipped** we already created a hector user with **Administer Platform** role
+**Skipped** we already created a hector user with **Administer Platform** role  
 
-Now that we have repo let's put the identifier of the repo in the code/stage
+Now that it is created confirm the identifier of the repo is present in the code/stage  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/2repos.png) 
 
 Piece of code on **upload stage**  
 `	"target": "php-todo-Repo/php-todo",	`
 	
-Now we Confirm the **Artifact** is there in the repo  
+When we run the job to test the stage we confirm the **Artifact** is there in the repo    
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/application.png)  
 
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/phptodo.png)  
 
 Can also use the path of the URL `http://3.220.20.204:8082/ui/repos/tree/General/php-todo-Repo`
 
-Added stage ('Deploy to Dev Environment')  
+Added stage ***Deploy to Dev Environment***  
 
 ``` bash
-		stage ('Deploy to Dev Environment') {
-    steps {
-    build job: 'ansible-project/main', parameters: [[$class: 'StringParameterValue', name: 'env', value: 'dev']], propagate: false, wait: true
-    }
+stage ('Deploy to Dev Environment') {
+  steps {
+    build job: 'ansible-project/main', parameters: [[$class: 'StringParameterValue', name: 'env', value: 'uat']], propagate: false, wait: true
   }
+}
 ```
-**php-todo** executed succesfully and this stage with execute another job **ansible-project** and pass it the parameter needed. Aka the inventory or env
-
+**php-todo** executed successfully and this stage with execute another job **ansible-project** and pass it the parameter needed.   
+*In the example above the value is **uat** which refers to the name of the **inventory** file containing *(demo)* **uat** servers that **Ansible** will target*  
+Screenshot of all the stages  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/phptodo26.png)  
 
-Now **php-todo** job does through all the stages and triggers **ansible-project** at the end  
+Now **php-todo** job goes through all the stages and triggers **ansible-project** *(here we see triggered by upstream project "php-todo/main")*  
 ![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/consoleOutput.png)  
 
 
 
 ### ANSIBLE INVENTORY
-Nothing here  
+Path `ansible-config-mgt/inventory`
+
+`uat.ini` the one we are currently using in our samples
+```bash
+[uat-webservers]
+172.31.81.182 ansible_ssh_user='ec2-user'
+172.31.89.227 ansible_ssh_user='ec2-user'
+[lb]
+172.31.91.121 ansible_ssh_user='ubuntu'
+[todo]
+172.31.81.182 ansible_ssh_user='ec2-user'
+172.31.89.227 ansible_ssh_user='ec2-user'
+```
 ### SONARQUBE INSTALLATION
-Just followed the steps  
-
-Provisioning instance  
-c4x.large Ubuntu  
-![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/sonarqube.png)  
-
-### CONFIGURE SONARQUBE
-
-
-**SONARQUBE INSTALLATION**  
+ 
 Before we start getting hands on with **SonarQube** configuration, it is incredibly important to understand a few concepts:  
 	• *Software Quality* – The degree to which a software component, system or process meets specified requirements based on user needs and expectations.  
-	• *Software Quality Gates* – Quality gates are basically acceptance criteria which are usually presented as a set of predefined quality criteria that a software development project must meet in order to proceed from one stage of its lifecycle to the next one. 
+	• *Software Quality Gates* – Quality gates are basically acceptance criteria which are usually presented as a set of predefined quality criteria that a software development project must meet in order to proceed from one stage of its lifecycle to the next one.   
 
 [Software Quality Gates](https://docs.sonarqube.org/latest/user-guide/quality-gates/)  
 
-SonarQube is a tool that can be used to create quality gates for software projects, and the ultimate goal is to be able to ship only quality software code.  
+SonarQube is a tool that can be used to create quality gates for software projects, and the ultimate goal is to be able to ship only quality software code.    
 
 Despite that DevOps CI/CD pipeline helps with fast software delivery, it is of the same importance to ensure the quality of such delivery. Hence, we will need SonarQube to set up Quality gates. In this project we will use predefined Quality Gates (also known as [The Sonar Way](https://docs.sonarqube.org/latest/instance-administration/quality-profiles/) ). Software testers and developers would normally work with project leads and architects to create custom quality gates.  
 
 **Install SonarQube on Ubuntu 20.04 With PostgreSQL as Backend Database**  
-Here is a manual approach to installation. Ensure that you can to automate the same with Ansible.  
-Below is a step by step guide how to install **SonarQube 7.9.3** version. It has a strong prerequisite to have Java installed since the tool is Java-based. MySQL support for SonarQube is deprecated, therefore we will be using PostgreSQL.  
+
+Provisioned instance **c4x.large Ubuntu**  
+
+Here is a manual approach to installation. Below is a step by step guide how to install **SonarQube 7.9.3** version. It has a strong prerequisite to have Java installed since the tool is Java-based.  
 
 We will make some Linux Kernel configuration changes to ensure optimal performance of the tool – we will increase `vm.max_map_count`, `file discriptor` and `ulimit`.  
 
 **Tune Linux Kernel**  
-This can be achieved by making session changes which does not persist beyond the current session terminal. (Seems like the first two are made permanent in /etc/sysctl.conf)
+This can be achieved by making session changes which does not persist beyond the current session terminal. *(Seems like the first two are made permanent in `/etc/sysctl.conf`)*  
 
 ``` bash
 sudo sysctl -w vm.max_map_count=262144  #it writes to `sysctl.conf`)
@@ -643,11 +653,16 @@ sudo sysctl -w fs.file-max=65536
 ulimit -n 65536
 ulimit -u 262144
 ```
-To make a permanent change, edit the file `/etc/security/limits.conf` and append the below  
-sonarqube   -   nofile   65536 (these 2 are supposed to be the permanent version of the first 2 sudo sysctl)
-sonarqube   -   nproc    4096
+To make a permanent change, edit the file `/etc/security/limits.conf` *(ulimit part)* and append the below    
+```bash
+sonarqube   -   nofile   65536 
+sonarqube   -   nproc    262144  
+``` 
+<!--(these 2 are supposed to be the permanent version of the first 2 sudo sysctl)-->
 
-Before installing, let us update and upgrade system packages:
+
+
+Before installing, let us update and upgrade system packages:  
 ``` bash
 sudo apt-get update -y
 sudo apt-get upgrade -y
@@ -656,24 +671,22 @@ Install **wget** and **unzip** packages
 ``` bash
 sudo apt-get install wget unzip -y
 ```
-Install OpenJDK and Java Runtime Environment (JRE) 11
+Install **OpenJDK** and Java Runtime Environment (**JRE**) 11
 ``` bash
 sudo apt-get install openjdk-11-jdk -y
 sudo apt-get install openjdk-11-jre -y
 ```
-Set default JDK – To set default JDK or switch to OpenJDK enter below command:
+Set default JDK – To set default JDK or switch to **OpenJDK** enter below command:
 ``` bash
 sudo update-alternatives --config java
 ```
 If you have multiple versions of Java installed, you should see a list like below:
-```
+```bash
+#I only have one option
 ubuntu@ip-172-31-89-89:~$  sudo update-alternatives --config java
 There is only one alternative in link group java (providing /usr/bin/java): /usr/lib/jvm/java-11-openjdk-amd64/bin/java
 Nothing to configure
 ```
-
-Seem like a database user was created. Correct **createuser** is a postgress command not a linux one so we are just creating a **role** sonar in the database.
-
 
 Taking note of version:  
 ``` bash
@@ -683,6 +696,7 @@ OpenJDK Runtime Environment (build 11.0.15+10-Ubuntu-0ubuntu0.20.04.1)
 OpenJDK 64-Bit Server VM (build 11.0.15+10-Ubuntu-0ubuntu0.20.04.1, mixed mode, sharing)
 ubuntu@ip-172-31-89-89:~$f
 ```
+
 **Install and Setup PostgreSQL 10 Database for SonarQube**
 
 The command below will add PostgreSQL repo to the repo list:  
@@ -705,7 +719,7 @@ Enable it to start automatically at boot time
 ``` bash
 sudo systemctl enable postgresql
 ```
-Change the password for default postgres user (Pass in the password you intend to use, and remember to save it somewhere)  
+Change the password for default postgres user
 ``` bash
 sudo passwd postgres
 ```
@@ -713,7 +727,8 @@ Switch to the `postgres` user
 ``` basg
 su - postgres
 ```
-Create a new user by typing  
+Create a new user by typing *(**createuser** is a PostgreSQL command not Linux, so we are just creating a **role** sonar in PostgreSQL.*
+)
 ``` bash
 createuser sonar
 ```
@@ -763,9 +778,134 @@ sudo mv /opt/sonarqube-7.9.3 /opt/sonarqube
 
 
 
-<details close>
-<summary>Expand GIF</summary>
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/sonarQubeScanner.png)  
 
-![Markdown Logo](https://raw.githubusercontent.com/hectorproko/AWS-CLOUD-SOLUTION-FOR-2-COMPANY-WEBSITES-USING-A-REVERSE-PROXY-TECHNOLOGY/main/images/tooling_project_15.png)  
-</details>
 
+Sonar privateIP `172.31.89.89 `  
+
+Here we adding the server  
+**Manage Jenkins** > **Configure System**
+
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/sonarQubeServers.png)  
+
+
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/sonarQubeInstall.png)  
+
+
+Requires that we generate a **token**  
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/sonarToken.png)  
+
+
+**Token**: `f2f94cd17b5dea3137e979ffc3ed7d79e9320d5b`  
+<!--
+Changed the password in this same screen to 0679
+-->
+
+Creating webhook  
+`http://3.220.20.204/sonarqube-webhook/` *(Elastic IP of Jenkins)*
+In the **Secret** I put `jenkins`  
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/webhook.png)  
+
+
+We get  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/URL.png) 
+
+
+Setup SonarQube scanner from Jenkins – **Global Tool Configuration**   
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/sonarQubeScanner2.png)  
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/installAutomatically.png)  
+
+
+
+
+The path `/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQubeScanner/conf/` get generated after SonarQube Scanner Installation which occurs after running the job. So we let it run/fail so it generates what we need `sonar-scanner.properties`  
+
+
+Added **SonarQube Quality Gate** let see if it creates the tools folder  
+Below is the snippet for a Quality Gate stage in [Jenkinsfile](https://github.com/hectorproko/php-todo/blob/main/Jenkinsfile). 
+``` bash 
+stage('SonarQube Quality Gate') {
+  environment {
+    scannerHome = tool 'SonarQubeScanner'
+  }
+  steps {
+    withSonarQubeEnv('sonarqube') {
+      sh "${scannerHome}/bin/sonar-scanner"
+    }
+  }
+}
+```
+
+
+As **expected** it failed but it did add the `tools` directory  
+
+
+**Error**: (Need to create the project in SonarQube server)  
+``` bash
+ERROR: Error during SonarScanner execution
+ERROR: You must define the following mandatory properties for 'Unknown': sonar.projectKey
+ERROR: 
+ERROR: Re-run SonarScanner using the -X switch to enable full debug logging.
+```
+
+
+**Part where `tools` is created:**  
+Unpacking `https://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/4.7.0.2747/sonar-scanner-cli-4.7.0.2747.zip` to `/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQubeScanner` on Jenkins
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/stageLogs.png)  
+
+
+**Before editing:** sonar-scanner.properties  
+`/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQubeScanner/conf/sonar-scanner.properties`
+
+**Going to create projectKey**  
+The name and key are the same for simplicity,right now we don’t have one at all that’s the error above, cant find it.  
+The error above is because we don’t have anything in the configuration file   
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/createProject.png)
+
+
+
+Now we edit `/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQubeScanner/conf/sonar-scanner.properties`  
+
+Add configuration related to `php-todo` project  
+``` bash
+sonar.host.url=http://<SonarQube-Server-IP-address>:9000
+sonar.projectKey=php-todo
+#----- Default source code encoding
+sonar.sourceEncoding=UTF-8
+sonar.php.exclusions=**/vendor/**
+sonar.php.coverage.reportPaths=build/logs/clover.xml
+sonar.php.tests.reportPath=build/logs/junit.xml
+```
+
+
+My changes
+``` bash
+#----- Default SonarQube server
+sonar.host.url=http://172.31.89.89:9000 #Private IP
+sonar.projectKey=php-todo #<< key we created
+#----- Default source code encoding
+sonar.sourceEncoding=UTF-8
+sonar.php.exclusions=**/vendor/**
+sonar.php.coverage.reportPaths=build/logs/clover.xml
+sonar.php.tests.reportPath=build/logs/junit.xml
+```
+
+**Issue**: When running the job got this issue: `ERROR: Error when running: 'node -v'. Is Node.js available during analysis? No CSS files will be analyzed.`  
+**Solution**: `sudo apt install nodejs`
+
+
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/pipeChain.png)  
+
+
+
+
+
+Everything works things are deploy but page displays  
+![Markdown Logo](https://raw.githubusercontent.com/hectorproko/EXPERIENCE-CONTINUOUS-INTEGRATION-WITH-JENKINS-ANSIBLE-ARTIFACTORY-SONARQUBE-PHP/main/images/index.png)  
